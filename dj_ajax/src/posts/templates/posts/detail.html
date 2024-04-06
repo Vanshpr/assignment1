@@ -12,7 +12,7 @@
 {% block title %} {{obj.title}} details{% endblock title %}
 
 {% block content %}
-
+ <!-- Update Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -35,10 +35,31 @@
     </div>
 </div>
 
+ <!-- Delete Modal -->
+ <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Post</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <b>"{{obj.title}}"</b> ?
+            </div>
+            <div class="modal-footer">
+                    <form id="delete-form">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <button id="back-btn" class="btn btn-info">Back</button>
 <button id="update-btn" class="btn btn-primary not-visible" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
-<button id="delete-btn" class="btn btn-danger not-visible">Delete</button>
-
+<button id="delete-btn" class="btn btn-danger not-visible" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
 <div id="spinner-box" class="text-center">
 <div class="spinner-border" role="status"></div>
 </div>
