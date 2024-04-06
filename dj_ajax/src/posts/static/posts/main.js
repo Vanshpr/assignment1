@@ -7,7 +7,6 @@ const postForm = document.getElementById('post-form')
 const title = document.getElementById('id_title')
 const body = document.getElementById('id_body')
 const csrf = document.getElementsByName('csrfmiddlewaretoken')
-console.log("..scrf..",csrf[0].value)
 
 let visible = 3
 
@@ -75,7 +74,7 @@ const get_data = () => {
             </div>
             <div class="card-footer">
               <div class="row">
-                <div class="col-2"><a href="#" class="btn btn-primary">Details...</a></div>
+                <div class="col-2"><a href="${window.location.href}${el.id}" class="btn btn-primary">Details...</a></div>
                 <div class="col-2">
                 <form class='like-unlike-forms' data-form-id="${el.id}">
                     <button href="#" class="btn btn-primary" id="like-unlike-${el.id}"> ${el.liked ? `Unlike(${el.count})`: `Like(${el.count})`}</button>
@@ -141,6 +140,7 @@ postForm.addEventListener('submit', e => {
             `)
             likeUnlikePosts()
             $("#addPostModal").modal("hide")
+            postForm.reset()
         },
         error: function(error){
             console.log(error)
