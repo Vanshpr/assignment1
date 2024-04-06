@@ -11,5 +11,17 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    def as_dict(self):
+        d = {
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
+            'author': {
+                'username': self.author.user.username,
+                # 'author_avatar': self.author.avatar
+            }
+        }
+        return d
+
     def __str__(self):
         return f'{self.title}'

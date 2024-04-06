@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}posts{% endblock title %}
+
 {% block scripts %}
   {% comment %} defer attribute is important as it instructs the browser to postpone the execution of JS until page is loaded {% endcomment %}
   <script src="{% static 'posts/main.js' %}" defer></script>
 {% endblock scripts %}
 
-{% block title %}posts{% endblock title %}
-
 {% block content %}
-  {% for obj in qs %}<b>{{ obj.title }}</b> - {{ obj.body }}</br>  {% endfor %} 
- <div id="hello-world"></div>
+  {% comment %} {% for obj in qs %}<b>{{ obj.title }}</b> - {{ obj.body }}</br>  {% endfor %} {% endcomment %}
+  <div id="posts-box"></div>
+  <div id="spinner" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="text-center mb-3 not-visible" id="end-box">
+     <button class="btn btn-primary" id="load-btn">Load more...</button>
+  </div>
 {% endblock content %}
