@@ -8,6 +8,10 @@ const title = document.getElementById('id_title')
 const body = document.getElementById('id_body')
 const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
+const dropzone = document.getElementById('my-dropzone')
+const addBtn = document.getElementById('add-btn')
+const closeBtns = [...document.getElementsByClassName('add-modal-close')]
+
 let visible = 3
 
 const getCookie = (name) => {
@@ -144,12 +148,27 @@ postForm.addEventListener('submit', e => {
           </div>
             `)
             likeUnlikePosts()
-            $("#addPostModal").modal("hide")
-            postForm.reset()
+           // $("#addPostModal").modal("hide")
+            //postForm.reset()
         },
         error: function(error){
             console.log(error)
         }
     })
 })
+
+addBtn.addEventListener('click', ()=> {
+  dropzone.classList.remove('not-visible')
+})
+
+closeBtns.forEach(btn=> btn.addEventListener('click', ()=>{
+  postForm.reset()
+  if (!dropzone.classList.contains('not-visible')) {
+      dropzone.classList.add('not-visible')
+  }
+  const myDropzone = Dropzone.forElement("#my-dropzone")
+  myDropzone.removeAllFiles(true)
+}))
+
+
 get_data()
