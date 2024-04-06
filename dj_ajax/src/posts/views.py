@@ -1,11 +1,29 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Post
+from .forms import PostForm
+from profiles.models import Profile
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 # Create your views here.
 def post_list_and_create(request):
+    form = PostForm(request.POST or None)
     qs = Post.objects.all()
-    return render(request, 'posts/main.html', {'qs':qs})
+
+    if is_ajax(request=request):
+        if form.is_valid():
+            author = Profile.objects.get(user=request.user)
+            instance = form.save(commit=False)
+            instance.author = author
+            instance.save()
+    context = {
+        'qs': qs,
+        'form': form
+    }
+    return render(request, 'posts/main.html', context)
 
 def load_post_data_view(request, num_posts):
     visible = 3
@@ -28,8 +46,6 @@ def load_post_data_view(request, num_posts):
     
     return JsonResponse({'data':data[lower:upper], 'size':size})
 
-def is_ajax(request):
-    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
 def like_unlike_post(request):
