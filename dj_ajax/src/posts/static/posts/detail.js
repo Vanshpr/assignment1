@@ -1,5 +1,4 @@
-console.log("...hello detial js sctztic page...")
-
+const postBox = document.getElementById('post-box')
 const backBtn = document.getElementById('back-btn')
 const url = window.location.href + "data/"
 const spinnerBox = document.getElementById('spinner-box')
@@ -23,6 +22,20 @@ $.ajax({
             updateBtn.classList.remove('not-visible')
             deleteBtn.classList.remove('not-visible')
         }
+
+        const titleEl = document.createElement('h3')
+        titleEl.setAttribute('class', 'mt-3')
+        titleEl.setAttribute('id', 'title')
+
+        const bodyEl = document.createElement('p')
+        bodyEl.setAttribute('class', 'mt-1')
+        bodyEl.setAttribute('id', 'body')
+
+        titleEl.textContent = data.title
+        bodyEl.textContent = data.body
+
+        postBox.appendChild(titleEl)
+        postBox.appendChild(bodyEl)
 
 
         spinnerBox.classList.add('not-visible')
