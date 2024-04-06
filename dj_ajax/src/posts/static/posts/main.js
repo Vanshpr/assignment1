@@ -27,7 +27,7 @@ const get_data = () => {
             <div class="card-footer">
               <div class="row">
                 <div class="col-2"><a href="#" class="btn btn-primary">Details...</a></div>
-                <div class="col-2"><a href="#" class="btn btn-primary">Like</a></div>
+                <div class="col-2"><a href="#" class="btn btn-primary">${el.liked ? `Unlike(${el.count})`: `Like(${el.count})`}</a></div>
               </div>
             </div>
           </div>

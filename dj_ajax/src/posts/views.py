@@ -4,23 +4,29 @@ from .models import Post
 
 # Create your views here.
 def post_list_and_create(request):
-  qs = Post.objects.all()
-  return render(request, 'posts/main.html', {'qs':qs})
+    qs = Post.objects.all()
+    return render(request, 'posts/main.html', {'qs':qs})
 
 def load_post_data_view(request, num_posts):
-  def post_as_dict(post:Post):
-    d = post.as_dict()
-    d['liked'] = request.user in post.liked.all()
-    return d
+    visible = 3
+    upper = num_posts
+    lower = upper - visible
+    qs = Post.objects.all()
+    size = qs.count()
+    data = []
 
-  qs = Post.objects.all()
-  visible = 3
-  upper = num_posts
-  lower = num_posts - visible
-  size = qs.count()
-
-  data = [post_as_dict(o) for o in qs]
-  return JsonResponse({'data':data[lower:upper], 'size':size, 'lower':lower, 'upper':upper})
+    for obj in qs:
+        item = {
+            'id':obj.id,
+            'title':obj.title,
+            'body': obj.body,
+            'liked': True if request.user in obj.liked.all() else False,
+            'count': obj.like_count,
+            'author': obj.author.user.username
+        }
+        data.append(item)
+    
+    return JsonResponse({'data':data[lower:upper], 'size':size})
 
 def hello_world_view(request):
-  return JsonResponse({'text':'hello ajax'})
+    return JsonResponse({'text':'hello ajax'})
